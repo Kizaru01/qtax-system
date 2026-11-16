@@ -414,13 +414,37 @@ video {
    ========================================== */
 
 /* Existing left panel keeps its original width */
+/* Left column fills the screen above the footer */
+.viewing > .row > .col-50:first-child {
+    height: calc(100dvh - 52px);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+/* The row containing the serving panel fills remaining space */
+.viewing > .row > .col-50:first-child > .row {
+    flex: 1;
+    min-height: 0;
+}
+
+/* Serving panel uses its parent's available height */
 .viewing .qtax-serving-panel {
     display: flex;
     flex-direction: column;
-    height: 92vh;
+
+    height: 100%;
     min-height: 0;
+
     overflow: hidden;
     box-sizing: border-box;
+}
+
+/* Cards share the available space */
+.viewing .qtax-serving-grid {
+    flex: 1;
+    min-height: 0;
+    height: auto;
 }
 
 /* Preserve the original Now Serving heading */
@@ -553,4 +577,30 @@ video {
     font-family: Verdana, sans-serif;
     font-size: 2.4vh;
     text-align: center;
+}
+/* Left side only — reserve space above the footer */
+.viewing > .vrow > .col-50:first-child {
+    height: 94dvh;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+/* Now Serving title keeps its natural height */
+.viewing > .vrow > .col-50:first-child > .v-title {
+    flex: 0 0 auto;
+}
+
+/* Remaining space belongs to the serving panel */
+.viewing > .vrow > .col-50:first-child > .vrow {
+    flex: 1 1 0;
+    min-height: 0;
+    height: auto;
+}
+
+/* Serving grid fills the panel, not the footer */
+.viewing .qtax-serving-grid {
+    flex: 1 1 0;
+    min-height: 0;
+    height: auto;
 }

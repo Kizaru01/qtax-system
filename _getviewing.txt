@@ -1,1 +1,1 @@
-  {"status":"yes","serving":false}
+  {"status":"yes","serving":[{"number":"T0002","window":"33","ifpayment":"NO","type":"REGULAR","status":"SERVING"},{"number":"T0003","window":"34","ifpayment":"NO","type":"REGULAR","status":"SERVING"},{"number":"T0004","window":"35","ifpayment":"NO","type":"REGULAR","status":"SERVING"},{"number":"T0005","window":"36","ifpayment":"NO","type":"REGULAR","status":"SERVING"},{"number":"T0006","window":"37","ifpayment":"NO","type":"REGULAR","status":"SERVING"},{"number":"T0012","window":"32","ifpayment":"NO","type":"REGULAR","status":"SERVING"}]}
