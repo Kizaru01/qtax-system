@@ -39,6 +39,24 @@
                 <div id="qtax-serving-grid" class="ns-grid"></div>
             </div>
 
+            <section class="ns-up-next" aria-labelledby="ns-up-next-title">
+                <div class="ns-up-next-label">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 6v6l4 2"></path>
+                    </svg>
+                    <div>
+                        <h2 id="ns-up-next-title">UP NEXT</h2>
+                    </div>
+                </div>
+                <ul id="qtax-up-next-tickets" class="ns-up-next-tickets" aria-label="Test tickets">
+                    <?php foreach (array('T0024', 'T0025', 'T0026', 'T0027', 'T0028') as $ticket): ?>
+                        <li><?php echo html_escape($ticket); ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </section>
+
             <!-- Hidden DataTable (keeps AJAX/Comet logic intact) -->
             <div style="display:none;">
                 <table id="dt_serving" class="display" style="width:100%;"></table>

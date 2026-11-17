@@ -50,7 +50,6 @@
                         alt="">
                     <span class="kiosk-lane-label">
                         <strong>Regular</strong>
-                        <span>Assessment</span>
                     </span>
                     <span class="kiosk-lane-arrow" aria-hidden="true"></span>
                 </button>
