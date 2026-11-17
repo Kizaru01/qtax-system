@@ -15,7 +15,7 @@ html, body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background: #f4f4f4;
+    background: #F5F6F8;
     font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -34,7 +34,7 @@ body.viewing {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: linear-gradient(165deg, #d9000c, #a4000c);
+    background: #DC3035;
     color: #fff;
     height: 7vh;
     min-height: 44px;
@@ -99,7 +99,7 @@ body.viewing {
     flex-direction: column;
     min-height: 0;
     overflow: hidden;
-    background: #fafafa;
+    background: #F5F6F8;
 }
 
 /* ---- RIGHT PANEL ------------------------------------------ */
@@ -122,7 +122,7 @@ body.viewing {
     flex: 0 0 auto;
     display: flex;
     align-items: center;
-    background: linear-gradient(165deg, #d9000c, #a4000c);
+    background: #DC3035;
     color: #fff;
     padding: 0 2vw;
     height: min(13vh, 9vw);
@@ -138,7 +138,7 @@ body.viewing {
     top: 0;
     height: 100%;
     width: 9vw;
-    background: linear-gradient(105deg, transparent, #fa0024 70%, #b00012);
+    background: linear-gradient(105deg, transparent, rgb(0 0 0 / 12%));
     transform: skewX(-18deg);
     pointer-events: none;
 }
@@ -237,7 +237,7 @@ body.viewing {
     align-items: center;
     min-width: 0;
     min-height: 0;
-    background: #fff;
+    background: #FFFFFF;
     border: 1px solid #eee;
     border-radius: min(1.7vh, 1vw);
     box-shadow: 0 2px 5px rgb(0 0 0 / 15%);
@@ -284,7 +284,7 @@ body.viewing {
 
 .ns-card-window-num {
     font-size: min(11cqw, 51cqh, 11vh);
-    color: #ce000c;
+    color: #BD1018;
 }
 
 .ns-card-divider {
@@ -307,8 +307,7 @@ body.viewing {
     max-width: 100%;
     padding: min(2.5cqh, 0.85cqw) 3cqw;
     border-radius: 999px;
-    background: #cd000b;
-    color: #fff;
+    color: #222;
     font-size: min(4.3cqw, 13cqh, 3vh);
     font-weight: 700;
     line-height: 1.08;
@@ -352,9 +351,7 @@ body.viewing {
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    transform: scale(1.4);
-    clip-path: circle(36%);
+    object-fit: contain;
 }
 
 .ns-brand-divider {
