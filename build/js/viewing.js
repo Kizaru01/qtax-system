@@ -72,9 +72,9 @@ function myTimer() {
 
 /* ---- Date display ---------------------------------------- */
 t_date.innerHTML =
-  dd.getUTCDate() + " " +
-  _m[dd.getUTCMonth()] + " " +
-  dd.getUTCFullYear();
+  dd.getDate() + " " +
+  _m[dd.getMonth()] + " " +
+  dd.getFullYear();
 
 /* ---- Service label helper --------------------------------- */
 function ifpayment(p) {
