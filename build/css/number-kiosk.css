@@ -1,5 +1,6 @@
 .ticket-kiosk {
     --navy: #05284a;
+    --red: #DC3035;
     --paper: #fafbfc;
     --gutter: clamp(24px, 4vw, 96px);
     display: flex;
@@ -28,7 +29,7 @@
     z-index: -1;
     inset: 0 0 0 auto;
     width: 22%;
-    background: linear-gradient(105deg, #a90720, #ff2026);
+    background: linear-gradient(105deg, #a90720, var(--red));
     clip-path: ellipse(100% 110% at 100% 110%);
     content: "";
 }
@@ -105,7 +106,7 @@
     width: clamp(60px, 6vw, 125px);
     height: auto;
     margin-left: 4vw;
-    color: #d7091c;
+    color: var(--red);
 }
 
 .kiosk-intro h1 {
@@ -166,7 +167,7 @@
 
 .kiosk-lane-special {
     --arrow: #a50b19;
-    background: linear-gradient(120deg, #ff3133, #d5151c 43%, #a32024);
+    background: linear-gradient(120deg, var(--red), #c32028 43%, #a32024);
 }
 
 .kiosk-lane::before {
@@ -183,7 +184,7 @@
 }
 
 .kiosk-lane-special::before {
-    background: linear-gradient(100deg, #810b12 20%, #ff2026 64%, #a50b19);
+    background: linear-gradient(100deg, #810b12 20%, var(--red) 64%, #a50b19);
 }
 
 .kiosk-lane:hover {
