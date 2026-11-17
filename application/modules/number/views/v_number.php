@@ -10,43 +10,65 @@
     <title><?php echo (isset($title)) ? $title . ' | Queuing' : 'Queuing System'; ?></title>
     <link href="<?php echo base_url('vendors/bootstrap-5/css/bootstrap.min.css'); ?>" rel="stylesheet">
     <link href="<?php echo base_url('build/css/app.min.css?v='.VERSION); ?>" rel="stylesheet">
-    <link href="<?php echo base_url('build/css/number.css?v='.VERSION); ?>" rel="stylesheet">
+    <link href="<?php echo base_url('build/css/number-kiosk.css?v='.VERSION); ?>" rel="stylesheet">
     <link href="<?php echo base_url('build/css/print.css?v='.VERSION); ?>" rel="stylesheet">
 </head>
 
 <body class="page-number1">
-    <div class="min-vh-100 d-flex flex-column">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <h2 class="display-4" style="margin: 0 auto;"><strong>Real Property Tax Queuing</strong></h2>
-        </nav>
-        <div class="text-center mb-5 mt-5">
-            <h2 class="display-4">Choose your transaction</h2>
-            <h2>and take a ticket</h2>
-        </div>
+    <div class="ticket-kiosk">
+        <header class="kiosk-header">
+            <div class="kiosk-city">
+                <img src="<?php echo base_url('build/images/logo.png?v='.VERSION); ?>"
+                    alt="City of San Fernando seal" width="100" height="100">
+                <div>
+                    <strong>City Government of San Fernando, Pampanga</strong>
+                    <span>City Assessor’s Office</span>
+                </div>
+            </div>
+            <div class="kiosk-service">
+                <strong>Real Property Tax Queuing</strong>
+                <span>Assessment Services</span>
+            </div>
+        </header>
 
-        <div class="row mx-auto w-100 gy-3 align-items-stretch" style="max-width: 1400px;">
-            <div class="col-12 col-md-6 content-regular">
-                <button id="btn-regular" class="bg-primary btn-modal w-100 h-100 text-white text-wrap p-4 p-lg-5" type="button">
+        <main class="kiosk-main">
+            <div class="kiosk-intro">
+                <svg class="kiosk-ticket-icon" viewBox="0 0 48 48" aria-hidden="true" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 19h38v7a5 5 0 0 0 0 10v7H5v-7a5 5 0 0 0 0-10z"
+                        transform="rotate(-42 24 24) translate(0 -7)"/>
+                    <path d="m26 12 13 15" />
+                    <circle cx="24" cy="24" r="1.4" />
+                </svg>
+                <h1>Choose Your Lane</h1>
+                <p>Tap an option to get your queue ticket.</p>
+            </div>
+
+            <div class="kiosk-lanes">
+                <button id="btn-regular" class="kiosk-lane kiosk-lane-regular" type="button">
                     <img src="<?php echo base_url('vendors/bootstrap-5/female-and-male-shapes-silhouettes.png?v='.VERSION); ?>"
-                        class="card-img-top" alt="" style="max-width: 180px;">
-                    <span class="d-block display-5 mt-4">Regular</span>
+                        alt="">
+                    <span class="kiosk-lane-label">
+                        <strong>Regular</strong>
+                        <span>Assessment</span>
+                    </span>
+                    <span class="kiosk-lane-arrow" aria-hidden="true"></span>
+                </button>
+                <button id="btn-special" class="kiosk-lane kiosk-lane-special" type="button">
+                    <img src="<?php echo base_url('vendors/bootstrap-5/special-icon.png?v='.VERSION); ?>" alt="">
+                    <span class="kiosk-lane-label">
+                        <strong>Special</strong>
+                        <span>PWDs • Senior Citizens • Pregnant Women</span>
+                    </span>
+                    <span class="kiosk-lane-arrow" aria-hidden="true"></span>
                 </button>
             </div>
-            <div class="col-12 col-md-6 content-special">
-                <button id="btn-special" class="bg-danger btn-modal w-100 h-100 text-white text-wrap p-4 p-lg-5" type="button">
-                    <img src="<?php echo base_url('vendors/bootstrap-5/special-icon.png?v='.VERSION); ?>"
-                        class="card-img-top" alt="" style="max-width: 180px;">
-                    <span class="d-block display-5 mt-4">Special</span>
-                    <span class="d-block fs-5">(PWDs, Senior Citizens, Pregnant Women)</span>
-                </button>
-            </div>
-        </div>
+        </main>
 
-        <footer class="text-center mt-auto pt-4">
-            <p>Developed & Maintained by City Information and Communications Technology Office </p>
+        <footer class="kiosk-footer">
+            <span>Developed &amp; Maintained by City Information and Communications Technology Office</span>
         </footer>
     </div>
-
 
     <div id="printable1">
         <div id="print">
