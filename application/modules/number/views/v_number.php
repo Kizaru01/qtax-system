@@ -15,256 +15,36 @@
 </head>
 
 <body class="page-number1">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <h2 class="display-4" style="margin: 0 auto;"><strong>Real Property Tax Queuing</strong></h2>
-    </nav>
-    <div class="text-center mb-5 mt-5">
-        <h2 class="display-4">Choose your transaction</h2>
-        <h2>and take a ticket</h2>
-    </div>
-
-    <div class="row" style="width: 1400px;margin: 0 auto;">
-        <div class="col-50 d-grid gap-4">
-            <!-- <h1 class="title text-center"><strong>Assessment</strong></h1> -->
-            <div class="row">
-                <div class="col-sm content-regular">
-                    <div class="bg-primary btn-modal" data-bs-toggle="modal" data-bs-target="#modal-1-4app"
-                        aria-label="Close" style="cursor: pointer;padding: 45px;">
-                        <img src="<?php echo base_url('build/images/search.png?v='.VERSION); ?>" class="card-img-top"
-                            alt="" width="200" style="max-width: 180px;">
-                        <p style="font-size: 50px;margin-top: 30px;">Assessment</p>
-                    </div>
-                </div>
-            </div>
-            <!-- <button class="btn btn-primary btn-number m-auto" type="button" data-bs-toggle="modal"
-                data-bs-target="#modal-1-4app-blpd">1 - 4 Application</button>
-            <button class="btn btn-primary btn-number m-auto" type="button" data-bs-toggle="modal"
-                data-bs-target="#modal-5-10app-blpd">5 - 10 Application</button>
-            <button class="btn btn-primary btn-number m-auto" type="button" data-bs-toggle="modal"
-                data-bs-target="#modal-releasing">Releasing Only</button> -->
+    <div class="min-vh-100 d-flex flex-column">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <h2 class="display-4" style="margin: 0 auto;"><strong>Real Property Tax Queuing</strong></h2>
+        </nav>
+        <div class="text-center mb-5 mt-5">
+            <h2 class="display-4">Choose your transaction</h2>
+            <h2>and take a ticket</h2>
         </div>
-        <div class="col-50 d-grid gap-4">
-            <!-- <h1 class="title text-center"><strong>Payment Only</strong></h1> -->
-            <div class="row">
-                <div class="col-sm content-regular">
-                    <div class="bg-primary btn-modal" data-bs-toggle="modal" data-bs-target="#modal-5-10app"
-                        aria-label="Close" style="cursor: pointer;padding: 45px;">
-                        <img src="<?php echo base_url('build/images/bill.png?v='.VERSION); ?>" class="card-img-top"
-                            alt="" width="200" style="max-width: 180px;">
-                        <p style="font-size: 50px;margin-top: 30px;">Payment</p>
-                    </div>
-                </div>
+
+        <div class="row mx-auto w-100 gy-3 align-items-stretch" style="max-width: 1400px;">
+            <div class="col-12 col-md-6 content-regular">
+                <button id="btn-regular" class="bg-primary btn-modal w-100 h-100 text-white text-wrap p-4 p-lg-5" type="button">
+                    <img src="<?php echo base_url('vendors/bootstrap-5/female-and-male-shapes-silhouettes.png?v='.VERSION); ?>"
+                        class="card-img-top" alt="" style="max-width: 180px;">
+                    <span class="d-block display-5 mt-4">Regular</span>
+                </button>
+            </div>
+            <div class="col-12 col-md-6 content-special">
+                <button id="btn-special" class="bg-danger btn-modal w-100 h-100 text-white text-wrap p-4 p-lg-5" type="button">
+                    <img src="<?php echo base_url('vendors/bootstrap-5/special-icon.png?v='.VERSION); ?>"
+                        class="card-img-top" alt="" style="max-width: 180px;">
+                    <span class="d-block display-5 mt-4">Special</span>
+                    <span class="d-block fs-5">(PWDs, Senior Citizens, Pregnant Women)</span>
+                </button>
             </div>
         </div>
-    </div>
 
-    <div>
-        <p style="text-align: center;position: absolute;bottom: 0;left: 0;right: 0;">Developed & Maintained by City
-            Information and Communications Technology Office </p>
-    </div>
-
-
-
-    <div class="modal" id="modal-taxbill" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal-taxbill"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-md">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="">Tax BIll / PWDs, Senior, Pregnant</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                        style="min-width: 35px;"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm content-regular">
-                            <div id="btn-regular-tax" class="bg-primary btn-modal" data-bs-dismiss="modal"
-                                aria-label="Close">
-                                <img src="<?php echo base_url('vendors/bootstrap-5/female-and-male-shapes-silhouettes.png?v='.VERSION); ?>"
-                                    class="card-img-top" alt="">
-                                <p>Tax BIll</p>
-                            </div>
-                        </div>
-                        <div class="col-sm content-special">
-                            <div id="btn-special-tax" class="bg-danger btn-modal" data-bs-dismiss="modal"
-                                aria-label="Close">
-                                <img src="<?php echo base_url('vendors/bootstrap-5/special-icon.png?v='.VERSION); ?>"
-                                    class="card-img-top" alt="">
-                                <p><span>(PWDs, Senior, Pregnant)</span><br>Special lane
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal" id="modal-1-4app" data-bs-keyboard="false" tabindex="-2" aria-labelledby="modal-1-4app"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="">Assessment</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                        style="min-width: 35px;"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm content-regular">
-                            <div id="btn-regular" class="bg-primary btn-modal" data-bs-dismiss="modal"
-                                aria-label="Close" style="cursor: pointer">
-                                <img src="<?php echo base_url('vendors/bootstrap-5/female-and-male-shapes-silhouettes.png?v='.VERSION); ?>"
-                                    class="card-img-top" alt="">
-                                <p>Regular lane</p>
-                            </div>
-                        </div>
-                        <div class="col-sm content-special">
-                            <div id="btn-special" class="bg-danger btn-modal" data-bs-dismiss="modal" aria-label="Close"
-                                style="cursor: pointer">
-                                <img src="<?php echo base_url('vendors/bootstrap-5/special-icon.png?v='.VERSION); ?>"
-                                    class="card-img-top" alt="">
-                                <p><span>(PWDs, Senior, Pregnant)</span><br>Special lane
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal" id="modal-5-10app" data-bs-keyboard="false" tabindex="-3" aria-labelledby="modal-1-4app"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">Payment Only</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                        style="min-width: 35px;"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm content-regular">
-                            <div id="btn-regular1" class="bg-primary btn-modal" data-bs-dismiss="modal"
-                                aria-label="Close" style="cursor: pointer">
-                                <img src="<?php echo base_url('vendors/bootstrap-5/female-and-male-shapes-silhouettes.png?v='.VERSION); ?>"
-                                    class="card-img-top" alt="">
-                                <p>Regular lane</p>
-                            </div>
-                        </div>
-                        <div class="col-sm content-special">
-                            <div id="btn-special1" class="bg-danger btn-modal" data-bs-dismiss="modal"
-                                aria-label="Close" style="cursor: pointer">
-                                <img src="<?php echo base_url('vendors/bootstrap-5/special-icon.png?v='.VERSION); ?>"
-                                    class="card-img-top" alt="">
-                                <p><span>(PWDs, Senior, Pregnant)</span><br>Special lane
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal" id="modal-1-4app-blpd" data-bs-keyboard="false" tabindex="-2" aria-labelledby="modal-1-4app"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-md" style="max-width: 750px  !important">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="">Assessment - 1 to 4 Application</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                        style="min-width: 35px;"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm content-regular">
-                            <div id="btn-regular" class="bg-primary btn-modal" data-bs-dismiss="modal"
-                                aria-label="Close">
-                                <img src="<?php echo base_url('vendors/bootstrap-5/female-and-male-shapes-silhouettes.png?v='.VERSION); ?>"
-                                    class="card-img-top" alt="">
-                                <p>Regular lane</p>
-                            </div>
-                        </div>
-                        <div class="col-sm content-special">
-                            <div id="btn-special" class="bg-danger btn-modal" data-bs-dismiss="modal"
-                                aria-label="Close">
-                                <img src="<?php echo base_url('vendors/bootstrap-5/special-icon.png?v='.VERSION); ?>"
-                                    class="card-img-top" alt="">
-                                <p><span>(PWDs, Senior, Pregnant)</span><br>Special lane
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal" id="modal-5-10app-blpd" data-bs-keyboard="false" tabindex="-3" aria-labelledby="modal-1-4app"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-md" style="max-width: 750px  !important">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="">Assessment - 5 to 10 Application</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                        style="min-width: 35px;"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm content-regular">
-                            <div id="btn-regular1" class="bg-primary btn-modal" data-bs-dismiss="modal"
-                                aria-label="Close">
-                                <img src="<?php echo base_url('vendors/bootstrap-5/female-and-male-shapes-silhouettes.png?v='.VERSION); ?>"
-                                    class="card-img-top" alt="">
-                                <p>Regular lane</p>
-                            </div>
-                        </div>
-                        <div class="col-sm content-special">
-                            <div id="btn-special1" class="bg-danger btn-modal" data-bs-dismiss="modal"
-                                aria-label="Close">
-                                <img src="<?php echo base_url('vendors/bootstrap-5/special-icon.png?v='.VERSION); ?>"
-                                    class="card-img-top" alt="">
-                                <p><span>(PWDs, Senior, Pregnant)</span><br>Special lane
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal" id="modal-releasing" data-bs-keyboard="false" tabindex="-3" aria-labelledby="modal-1-4app"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-md" style="max-width: 750px  !important">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="">Releasing</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                        style="min-width: 35px;"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm content-regular">
-                            <div id="btn-regular-releasing" class="bg-primary btn-modal" data-bs-dismiss="modal"
-                                aria-label="Close">
-                                <img src="<?php echo base_url('vendors/bootstrap-5/female-and-male-shapes-silhouettes.png?v='.VERSION); ?>"
-                                    class="card-img-top" alt="">
-                                <p>Regular lane</p>
-                            </div>
-                        </div>
-                        <div class="col-sm content-special">
-                            <div id="btn-special-releasing" class="bg-danger btn-modal" data-bs-dismiss="modal"
-                                aria-label="Close">
-                                <img src="<?php echo base_url('vendors/bootstrap-5/special-icon.png?v='.VERSION); ?>"
-                                    class="card-img-top" alt="">
-                                <p><span>(PWDs, Senior, Pregnant)</span><br>Special lane
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <footer class="text-center mt-auto pt-4">
+            <p>Developed & Maintained by City Information and Communications Technology Office </p>
+        </footer>
     </div>
 
 
