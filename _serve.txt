@@ -1,1 +1,1 @@
-  {"status":"yes","regular":[{"id":"16911","number":"1034","window":"1","remarks":"serving"},{"id":"16917","number":"1037","window":"42","remarks":"serving"}],"special":false,"special1":false,"regular1":false}
+  {"status":"yes","regular":[{"id":"16929","number":"1044","window":"42","remarks":"serving"}],"special":[{"id":"16927","number":"2028","window":"1","remarks":"serving"}],"special1":false,"regular1":false}

@@ -440,6 +440,8 @@ function announcerSpeak(text, done) {
     var u = new SpeechSynthesisUtterance(text);
     u.lang = "en-US";
     u.rate = 1.1;
+    u.pitch = 1;   // 0 to 2, default 1
+    u.volume = 1;  // 0 to 1, default 1
 
     var voices = window.speechSynthesis.getVoices();
     for (var v = 0; v < voices.length; v++) {

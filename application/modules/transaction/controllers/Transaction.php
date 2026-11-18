@@ -71,7 +71,23 @@ class Transaction extends MX_Controller
 
     public function ajax_get_mic() {
       if ($this->input->get('id')) {
-          file_put_contents(basename('/_mic.txt'),time());
+          // Re-announce the caller's ticket (bell + speech) when it is SERVING at their window.
+          $announced = FALSE;
+          $ticket_id = $this->input->get('ticket');
+          $window = $this->session->userdata('window');
+          if ($ticket_id && $this->session->userdata('accountId') && $window !== NULL && $window !== '') {
+            $ticket = $this->mdl_transaction->m_get_serving_announcement($ticket_id);
+            if ($ticket && (int) $ticket->window === (int) $window) {
+              $this->_push_announcement($ticket->number, $ticket->window);
+              $announced = TRUE;
+            }
+          }
+
+          // Otherwise keep the previous behaviour: bell only.
+          // (The announcement plays the bell itself, so skip it to avoid a double bell.)
+          if (!$announced) {
+            file_put_contents(basename('/_mic.txt'),time());
+          }
           $result = array('status' => true,'content'=> '');
           echo json_encode($result);
       } else {

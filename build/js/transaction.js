@@ -285,7 +285,9 @@ function if_serving(w_no, remarks) {
 
 function btn_call(t) {
   showloader();
-  getJSON(base_url + "transaction/ajax_get_mic?id=prince").then(
+  getJSON(
+    base_url + "transaction/ajax_get_mic?id=prince&ticket=" + encodeURIComponent(t.dataset.id || "")
+  ).then(
     function (data) {
       hideloader();
     },
