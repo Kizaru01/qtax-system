@@ -23,6 +23,20 @@ class Mdl_transaction extends CI_Model
 		}
 	}
 
+  // Ticket number and window for the viewing monitor announcement.
+  // Returns FALSE unless the ticket is currently SERVING.
+  public function m_get_serving_announcement($id) {
+    $this->db->select('number, window');
+    $this->db->where('id', $id);
+    $this->db->where('status', 'SERVING');
+    $query = $this->db->get('tbl_transaction');
+    if ($query->num_rows() > 0) {
+      return $query->row();
+    } else {
+      return FALSE;
+    }
+  }
+
   public function m_ajax_get_serve($str) {
     $sql = 'SELECT
               `id`,

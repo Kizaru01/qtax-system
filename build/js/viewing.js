@@ -290,7 +290,8 @@ Comet1.prototype = {
   handleResponse: function () {
     if (_dt_serving) {
       dt_serving.ajax.reload(function () {
-        if (dt_serving.data().count() > dt_serving_count) {
+        // Skip while an announcement is active: it plays the bell itself.
+        if (dt_serving.data().count() > dt_serving_count && !announcer.isActive()) {
           var promise = x.play();
           if (promise !== undefined) {
             promise.then(function(){}).catch(function(){});
@@ -350,3 +351,160 @@ Comet4.prototype = {
 };
 var comet4 = new Comet4();
 comet4.connect();
+
+/* ============================================================
+   ANNOUNCER — "Now serving" bell + text-to-speech
+   Long-polls _announce_check.php. Items carry an increasing
+   sequence number: they are spoken in order, one at a time,
+   and anything at or below the last seen sequence is ignored.
+   ============================================================ */
+var announcer = {
+  queue: [],
+  busy: false,
+  utterance: null, // keep a reference so Chrome does not drop onend
+
+  isActive: function () {
+    return this.busy || this.queue.length > 0;
+  },
+
+  enqueue: function (item) {
+    this.queue.push(item);
+    this.next();
+  },
+
+  next: function () {
+    if (this.busy || this.queue.length === 0) return;
+    this.busy = true;
+
+    var self = this,
+      item = this.queue.shift(),
+      text =
+        "Now serving ticket number " + item.number +
+        ". Please proceed to Window " + item.window + ".";
+
+    announcerPlayBell(function () {
+      announcerSpeak(text, function () {
+        self.busy = false;
+        self.next();
+      });
+    });
+  },
+};
+
+/* Play the existing bell, then call done once (on end, error or timeout).
+   If the bell is already ringing, wait for it instead of restarting it. */
+function announcerPlayBell(done) {
+  var finished = false, timer;
+
+  function finish() {
+    if (finished) return;
+    finished = true;
+    clearTimeout(timer);
+    x.removeEventListener("ended", finish);
+    x.removeEventListener("error", finish);
+    done();
+  }
+
+  x.addEventListener("ended", finish);
+  x.addEventListener("error", finish);
+  timer = setTimeout(finish, 8000);
+
+  if (x.paused || x.ended) {
+    try { x.currentTime = 0; } catch (e) {}
+    var promise = x.play();
+    if (promise !== undefined) {
+      promise.catch(finish);
+    }
+  }
+}
+
+/* Speak text with the browser's speech synthesis. Always calls done once,
+   even if speech is unsupported, blocked, errors out or never ends. */
+function announcerSpeak(text, done) {
+  var finished = false, timer;
+
+  function finish() {
+    if (finished) return;
+    finished = true;
+    clearTimeout(timer);
+    announcer.utterance = null;
+    done();
+  }
+
+  if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance === "undefined") {
+    finish();
+    return;
+  }
+
+  try {
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = "en-US";
+    u.rate = 1.1;
+
+    var voices = window.speechSynthesis.getVoices();
+    for (var v = 0; v < voices.length; v++) {
+      if (/^en([-_]|$)/i.test(voices[v].lang)) { u.voice = voices[v]; break; }
+    }
+
+    u.onend = finish;
+    u.onerror = function (e) {
+      if (window.console) console.warn("Announcement speech failed:", e.error || e);
+      finish();
+    };
+
+    announcer.utterance = u;
+    timer = setTimeout(function () {
+      window.speechSynthesis.cancel();
+      finish();
+    }, 15000);
+
+    window.speechSynthesis.speak(u);
+  } catch (e) {
+    if (window.console) console.warn("Announcement speech failed:", e);
+    finish();
+  }
+}
+
+/* Load voices early (Chrome fills getVoices() asynchronously). */
+if ("speechSynthesis" in window) {
+  window.speechSynthesis.getVoices();
+}
+
+/* Long-poll for new announcements. announceSeq = -1 means "not yet
+   synced": the first response only records the current sequence so a
+   page reload does not replay earlier announcements. */
+var announceSeq = -1;
+
+function pollAnnouncements() {
+  var ok = false;
+
+  new Ajax.Request(base_url + "_announce_check.php", {
+    method: "get",
+    parameters: { since: announceSeq },
+    onSuccess: function (transport) {
+      var res = null;
+      try { res = JSON.parse(transport.responseText); } catch (e) {}
+      if (!res || typeof res.seq !== "number") return;
+      ok = true;
+
+      // First sync, or the server log was reset: start from the current point.
+      if (announceSeq < 0 || res.seq < announceSeq) {
+        announceSeq = res.seq;
+        return;
+      }
+
+      (res.items || []).forEach(function (item) {
+        var seq = parseInt(item.seq, 10);
+        if (seq > announceSeq) {
+          announceSeq = seq;
+          announcer.enqueue(item);
+        }
+      });
+      if (res.seq > announceSeq) announceSeq = res.seq;
+    },
+    onComplete: function () {
+      setTimeout(pollAnnouncements, ok ? 0 : 5000);
+    },
+  });
+}
+pollAnnouncements();
