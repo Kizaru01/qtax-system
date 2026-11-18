@@ -10,10 +10,11 @@ if ($msg != '')
   die();
 }
 
-// infinite loop until the data file is not modified
+// Reload periodically even if multiple writes share one file timestamp.
 $lastmodif    = isset($_GET['timestamp']) ? $_GET['timestamp'] : 0;
 $currentmodif = filemtime($filename);
-while ($currentmodif <= $lastmodif) // check if the data file has been modified
+$deadline = microtime(true) + 5;
+while ($currentmodif <= $lastmodif && microtime(true) < $deadline)
 {
   usleep(10000); // sleep 10ms to unload the CPU
   clearstatcache();

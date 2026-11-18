@@ -14,48 +14,60 @@
 
 <body class="viewing">
 
+    <header class="ns-header">
+        <div class="ns-header-serving">
+            <div class="ns-header-icon">
+                <img src="<?php echo base_url('build/css/3heads.jpg'); ?>" alt="">
+            </div>
+            <div class="ns-header-divider"></div>
+            <div class="ns-header-text">
+                <span class="ns-header-title">Now Serving</span>
+                <span class="ns-header-subtitle">Current transactions at each window</span>
+            </div>
+        </div>
+        <div class="ns-brand">
+            <div class="ns-brand-logo" title="City of San Fernando, Pampanga">
+                <img src="<?php echo base_url('build/images/logo.png'); ?>" alt="City of San Fernando, Pampanga">
+            </div>
+            <div class="ns-brand-divider"></div>
+            <div class="ns-brand-text">
+                <span class="ns-brand-city">CITY OF<br><strong>SAN FERNANDO</strong></span>
+                <span class="ns-brand-province">PAMPANGA</span>
+            </div>
+        </div>
+        <div class="ns-header-stripe" aria-hidden="true"></div>
+    </header>
+
     <!-- ===== MAIN LAYOUT: 50/50 split ===== -->
     <div class="ns-layout">
 
         <!-- ========== LEFT PANEL ========== -->
         <div class="ns-left">
 
-            <!-- Now Serving header -->
-            <div class="ns-header">
-                <div class="ns-header-icon">
-                    <img src="<?php echo base_url('build/css/3heads.jpg'); ?>" alt="">
-                </div>
-                <div class="ns-header-divider"></div>
-                <div class="ns-header-text">
-                    <span class="ns-header-title">Now Serving</span>
-                    <span class="ns-header-subtitle">Current transactions at each window</span>
-                </div>
-                <!-- Red decorative stripe -->
-                <div class="ns-header-stripe"></div>
-            </div>
-
             <!-- Cards container -->
             <div class="ns-cards-wrap">
                 <div id="qtax-serving-grid" class="ns-grid"></div>
             </div>
 
-            <section class="ns-up-next" aria-labelledby="ns-up-next-title">
-                <div class="ns-up-next-label">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" aria-hidden="true">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <path d="M12 6v6l4 2"></path>
-                    </svg>
-                    <div>
-                        <h2 id="ns-up-next-title">UP NEXT</h2>
-                    </div>
-                </div>
-                <ul id="qtax-up-next-tickets" class="ns-up-next-tickets" aria-label="Test tickets">
-                    <?php foreach (array('T0024', 'T0025', 'T0026', 'T0027', 'T0028') as $ticket): ?>
-                        <li><?php echo html_escape($ticket); ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            </section>
+         <section class="ns-up-next" aria-labelledby="ns-up-next-title" hidden>
+    <div class="ns-up-next-label">
+        <svg viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 6v6l4 2"></path>
+        </svg>
+
+        <div>
+            <h2 id="ns-up-next-title">UP NEXT</h2>
+        </div>
+    </div>
+
+    <ul id="qtax-up-next-tickets"
+        class="ns-up-next-tickets"
+        aria-label="Next waiting tickets">
+    </ul>
+</section>
 
             <!-- Hidden DataTable (keeps AJAX/Comet logic intact) -->
             <div style="display:none;">
@@ -66,18 +78,6 @@
 
         <!-- ========== RIGHT PANEL ========== -->
         <div class="ns-right">
-
-            <!-- City branding bar -->
-            <div class="ns-brand">
-                <div class="ns-brand-logo" title="City of San Fernando, Pampanga">
-                    <img src="<?php echo base_url('build/images/logo.png'); ?>" alt="City of San Fernando, Pampanga">
-                </div>
-                <div class="ns-brand-divider"></div>
-                <div class="ns-brand-text">
-                    <span class="ns-brand-city">CITY OF<br><strong>SAN FERNANDO</strong></span>
-                    <span class="ns-brand-province">PAMPANGA</span>
-                </div>
-            </div>
 
             <!-- Video player -->
             <div class="ns-video-wrap">

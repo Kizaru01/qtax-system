@@ -131,6 +131,7 @@ class Number extends MX_Controller
 
           // file_put_contents(basename('/_servepayment.txt'),file_get_contents(base_url().'transaction/ajax_get_serve_payment'));
           file_put_contents(basename('/_serve.txt'),file_get_contents(base_url().'transaction/ajax_get_serve'));
+          file_put_contents(basename('/_getviewing.txt'),file_get_contents(base_url().'viewing/ajax_get_viewing'));
         //  file_put_contents(basename('/_servereleasing.txt'),file_get_contents(base_url().'transaction/ajax_get_serve_releasing'));
 
 

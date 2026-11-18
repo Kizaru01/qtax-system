@@ -76,17 +76,8 @@ t_date.innerHTML =
   _m[dd.getUTCMonth()] + " " +
   dd.getUTCFullYear();
 
-/* ---- Service label helper --------------------------------- */
-function ifpayment(p) {
-  return (p === "YES") ? "PAYMENT ONLY" : "";
-}
-
-function iftype(p, type, status) {
-  if (type === "REGULAR")      return "Assessment";
-  if (type === "SPECIAL")      return "Assessment - PWDs, Senior, Pregnant";
-  if (type === "REGULAR5-10")  return "Payment";
-  if (type === "SPECIAL5-10")  return "Payment - PWDs, Senior, Pregnant";
-  return "";
+function priorityLabel(type) {
+  return (type === "SPECIAL" || type === "SPECIAL5-10") ? "PWDs, Senior, Pregnant" : "";
 }
 
 /* ============================================================
@@ -94,6 +85,29 @@ function iftype(p, type, status) {
    Builds the new card layout inside #qtax-serving-grid.
    Only visual output changes — DataTables drives the data.
    ============================================================ */
+function renderWaitingCards(waiting) {
+    const container = document.getElementById(
+        "qtax-up-next-tickets"
+    );
+
+    if (!container) return;
+
+    const section = container.closest(".ns-up-next");
+    const hasWaitingTickets = Array.isArray(waiting) && waiting.length > 0;
+    container.innerHTML = "";
+    section.hidden = !hasWaitingTickets;
+
+    if (!hasWaitingTickets) return;
+
+    waiting.forEach(function(ticket) {
+        const item = document.createElement("li");
+
+        item.textContent = ticket.number;
+
+        container.appendChild(item);
+    });
+}
+
 function renderServingCards(records) {
   var grid = document.getElementById("qtax-serving-grid");
   if (!grid) return;
@@ -141,7 +155,7 @@ function renderServingCards(records) {
   records.forEach(function (record) {
     var windowNum  = record.window  || "-";
     var ticketNum  = record.number  || "-";
-    var serviceLabel = iftype(record.ifpayment, record.type, record.status) || "Service";
+    var label = priorityLabel(record.type);
 
     /* Card shell */
     var card = document.createElement("div");
@@ -174,12 +188,13 @@ function renderServingCards(records) {
     ticket.className = "ns-card-ticket";
     ticket.textContent = ticketNum;
 
-    var service = document.createElement("div");
-    service.className = "ns-card-service";
-    service.textContent = serviceLabel;
-
     right.appendChild(ticket);
-    right.appendChild(service);
+    if (label) {
+      var service = document.createElement("div");
+      service.className = "ns-card-service";
+      service.textContent = label;
+      right.appendChild(service);
+    }
 
     card.appendChild(left);
     card.appendChild(divider);
@@ -199,15 +214,24 @@ function renderServingCards(records) {
 dt_serving = $("#dt_serving").DataTable({
   ajax: {
     type: "GET",
-    url: base_url + "_getviewing.txt",
-    dataSrc: "serving",
+    url: base_url + "viewing/ajax_get_viewing",
+    cache: false,
+
+  dataSrc: function(response) {
+    // Update the waiting cards
+    renderWaitingCards(response.waiting || []);
+
+    // Keep the existing serving logic
+    return response.serving || [];
+  }
   },
   columns: [
     {
       data: function (data) {
+        var label = priorityLabel(data.type);
         return (
           '<div class="col-left">' + data.number +
-          ' <span>' + iftype(data.ifpayment, data.type, data.status) + '</span></div>' +
+          (label ? ' <span>' + label + '</span>' : '') + '</div>' +
           '<div class="col-right">' + data.window + '<span>window</span></div>'
         );
       },
@@ -221,6 +245,7 @@ dt_serving = $("#dt_serving").DataTable({
   drawCallback: function () {
     var records = this.api().rows().data().toArray();
     renderServingCards(records);
+
   },
   fnCreatedRow: function (nRow, data) {
     $(nRow).attr("data-id", data.id);

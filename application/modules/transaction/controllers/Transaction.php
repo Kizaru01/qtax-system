@@ -186,7 +186,7 @@ class Transaction extends MX_Controller
       if ($data['status'] == "VERIFY") {
         $data['doneby'] = $this->session->userdata('accountId');
         $data['dtdone'] = date("Y-m-d H:i:s");
-        $data['window'] = '';
+        $data['window'] = NULL;
         $data['type'] = $this->input->post('type');
         $data['status'] = 'NA';
         $data['dtorder'] = date("Y-m-d H:i:s");

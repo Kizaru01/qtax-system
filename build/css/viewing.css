@@ -1,6 +1,6 @@
 /* ============================================================
    QTAX Now Serving — Full UI Redesign
-   Palette  : #c00 / #b00018 (red), #fff (white), #111 (black)
+   Palette  : navy, blue, red, white, and neutral grays
    Reference: City of San Fernando QTAX display board
    ============================================================ */
 
@@ -34,12 +34,13 @@ body.viewing {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #DC3035;
-    color: #fff;
+    background:  #F5F6F8;
+    color: rgb(0, 0, 0);
     height: 7vh;
     min-height: 44px;
     padding: 0 2vw;
     z-index: 10;
+    position: relative;
 }
 
 .ns-footer-welcome {
@@ -56,6 +57,7 @@ body.viewing {
     display: flex;
     align-items: center;
     gap: 1vw;
+    color: #fff;
     font-family: "Arial Black", Arial, sans-serif;
     font-size: clamp(13px, 2.2vh, 26px);
     font-weight: 700;
@@ -78,6 +80,10 @@ body.viewing {
     width: clamp(16px, 2.6vh, 30px);
     height: clamp(16px, 2.6vh, 30px);
     flex-shrink: 0;
+}
+
+.ns-footer-icon [stroke] {
+    stroke: currentColor;
 }
 
 /* ============================================================
@@ -120,42 +126,46 @@ body.viewing {
    ============================================================ */
 .ns-header {
     flex: 0 0 auto;
-    display: flex;
-    align-items: center;
-    background: #DC3035;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    background: linear-gradient(105deg, #A21C22, #8A151C 64%, #741219);
     color: #fff;
-    padding: 0 2vw;
     height: min(13vh, 9vw);
     position: relative;
     overflow: hidden;
+    isolation: isolate;
+}
+
+.ns-header-serving,
+.ns-brand {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    padding: 0 2vw;
     gap: 1.5vw;
 }
 
-/* Decorative angled stripe on the right of the header */
-.ns-header-stripe {
+/* Curved red band along the bottom of both bars */
+.ns-header-stripe,
+.ns-footer::before {
     position: absolute;
-    right: -20px;
-    top: 0;
-    height: 100%;
-    width: 9vw;
-    background: linear-gradient(105deg, transparent, rgb(0 0 0 / 12%));
-    transform: skewX(-18deg);
+    z-index: -1;
+    inset: 0;
+    background: linear-gradient(105deg, #6C0E13, #A01C23 70%, #851218);
+    clip-path: ellipse(115% 55% at 90% 137%);
     pointer-events: none;
 }
-.ns-header-stripe::after {
+
+.ns-footer::before {
     content: "";
-    position: absolute;
-    right: -40px;
-    top: 0;
-    height: 100%;
-    width: 80px;
-    background: rgba(255,255,255,0.05);
+    background: linear-gradient(105deg, #78141B, #9A1921 75%, #a81620);
+    clip-path: ellipse(58% 126% at 102% 118%);
 }
 
 .ns-header-icon {
     flex-shrink: 0;
-    width: clamp(32px, 5.5vh, 56px);
-    height: clamp(32px, 5.5vh, 56px);
+    width: min(clamp(32px, 5.5vh, 56px), 6vw);
+    aspect-ratio: 1;
 }
 
 .ns-header-icon img {
@@ -339,7 +349,7 @@ body.viewing {
     margin: 0 clamp(6px, 1vh, 12px) clamp(6px, 1vh, 12px);
     padding: var(--next-inset);
     border-radius: min(1.7vh, 1vw);
-    background: #fbd7dd;
+    background: #e3edf5;
 }
 
 .ns-up-next-label {
@@ -349,7 +359,7 @@ body.viewing {
     min-width: 0;
     padding: var(--next-inset);
     border-radius: min(1.3vh, 0.8vw);
-    background: linear-gradient(#dc162d, #970812);
+    background: #0067B1;
     color: #fff;
 }
 
@@ -375,16 +385,17 @@ body.viewing {
     align-items: center;
     gap: min(0.9vh, 0.6vw);
     padding-left: var(--next-inset);
-    border-left: 1px solid #e6a0aa;
+    border-left: 1px solid #b6cadb;
     list-style: none;
 }
 
 .ns-up-next-tickets li {
     padding: 0.45em 0;
+    border: 1px solid #78AFE3;
     border-radius: min(1.3vh, 0.8vw);
-    background: #fff;
-    box-shadow: 0 2px 4px rgb(112 0 15 / 24%);
-    color: #000;
+    background: #F3F8FD;
+    box-shadow: 0 2px 4px rgb(6 45 79 / 24%);
+    color: #005A9C;
     font-size: min(2.55vh, 1.65vw);
     font-weight: 900;
     line-height: 1;
@@ -392,15 +403,11 @@ body.viewing {
     white-space: nowrap;
 }
 
+.ns-up-next[hidden] {
+    display: none;
+}
+
 .ns-brand {
-    margin-inline-end: var(--ns-video-inset);
-    flex: 0 0 auto;
-    display: flex;
-    align-items: center;
-    padding: 0 2vw;
-    height: min(13vh, 9vw);
-    gap: 1.5vw;
-    background: #fff;
     justify-content: center;
 }
 
@@ -420,7 +427,7 @@ body.viewing {
 .ns-brand-divider {
     width: 2px;
     height: 55%;
-    background: #ccc;
+    background: rgba(255,255,255,0.4);
     flex-shrink: 0;
 }
 
@@ -434,7 +441,6 @@ body.viewing {
 .ns-brand-city {
     font-family: Arial, sans-serif;
     font-size: min(2vh, 2vw);
-    color: #333;
     font-weight: 400;
     display: block;
     text-transform: uppercase;
@@ -446,15 +452,13 @@ body.viewing {
     font-family: "Arial Black", Arial, sans-serif;
     font-size: min(4vh, 3vw);
     font-weight: 900;
-    color: #b00018;
     letter-spacing: -0.01em;
     line-height: 1;
 }
 
 .ns-brand-province {
     font-family: Arial, sans-serif;
-    font-size: clamp(10px, 1.5vh, 17px);
-    color: #555;
+    font-size: min(1.5vh, 1.5vw, 17px);
     text-transform: uppercase;
     letter-spacing: 0.29em;
     font-weight: 400;

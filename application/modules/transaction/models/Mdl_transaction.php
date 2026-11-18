@@ -42,7 +42,7 @@ class Mdl_transaction extends CI_Model
               AND (`status` = "NA" OR `status` = "SERVING" OR `status` = "PENDING")
               AND `type` = "'.$str.'"
               AND isactive = "yes"
-            ORDER BY `dtorder`';
+            ORDER BY `dtorder`, `id`';
 
     $query = $this->db->query($sql);
     if ($query->num_rows() > 0) {
