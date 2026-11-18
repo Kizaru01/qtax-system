@@ -20,23 +20,7 @@ class Viewing extends MX_Controller
     }
 
     public function ajax_get_viewing() {
-      $serving_payment = $this->mdl_viewing->m_ajax_get_serving_payment();
-      $serving = $this->mdl_viewing->m_ajax_get_serving();
-      // if ($serving = $this->mdl_viewing->m_ajax_get_serving()) {
-        $result = array(
-          'status' => 'yes',
-          'serving'=> $serving,
-          // 'serving_payment'=> $serving_payment,
-        );
-      // } else {
-        // $result = array(
-        //   'status' => 'no',
-        //   'serving'=> false,
-        //   'serving_payment'=> false,
-
-        // );
-      // }
-      echo json_encode($result);
+      echo json_encode($this->mdl_viewing->m_ajax_get_queue_snapshot());
     }
 
     public function ajax_get_waiting() {

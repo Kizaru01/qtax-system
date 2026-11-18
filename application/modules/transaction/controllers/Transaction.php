@@ -71,7 +71,23 @@ class Transaction extends MX_Controller
 
     public function ajax_get_mic() {
       if ($this->input->get('id')) {
-          file_put_contents(basename('/_mic.txt'),time());
+          // Re-announce the caller's ticket (bell + speech) when it is SERVING at their window.
+          $announced = FALSE;
+          $ticket_id = $this->input->get('ticket');
+          $window = $this->session->userdata('window');
+          if ($ticket_id && $this->session->userdata('accountId') && $window !== NULL && $window !== '') {
+            $ticket = $this->mdl_transaction->m_get_serving_announcement($ticket_id);
+            if ($ticket && (int) $ticket->window === (int) $window) {
+              $this->_push_announcement($ticket->number, $ticket->window);
+              $announced = TRUE;
+            }
+          }
+
+          // Otherwise keep the previous behaviour: bell only.
+          // (The announcement plays the bell itself, so skip it to avoid a double bell.)
+          if (!$announced) {
+            file_put_contents(basename('/_mic.txt'),time());
+          }
           $result = array('status' => true,'content'=> '');
           echo json_encode($result);
       } else {
@@ -186,7 +202,7 @@ class Transaction extends MX_Controller
       if ($data['status'] == "VERIFY") {
         $data['doneby'] = $this->session->userdata('accountId');
         $data['dtdone'] = date("Y-m-d H:i:s");
-        $data['window'] = '';
+        $data['window'] = NULL;
         $data['type'] = $this->input->post('type');
         $data['status'] = 'NA';
         $data['dtorder'] = date("Y-m-d H:i:s");
@@ -240,6 +256,14 @@ class Transaction extends MX_Controller
       }
 
       if ($result = $this->mdl_transaction->m_save_trasaction($data)) {
+        // Announce on the viewing monitor only when a row actually changed to SERVING.
+        if ($data['status'] == "SERVING" && $this->db->affected_rows() > 0) {
+          $ticket = $this->mdl_transaction->m_get_serving_announcement($data['id']);
+          if ($ticket) {
+            $this->_push_announcement($ticket->number, $ticket->window);
+          }
+        }
+
         file_put_contents(basename('/_getviewing.txt'),file_get_contents(base_url().'viewing/ajax_get_viewing'));
 
 
@@ -265,6 +289,44 @@ class Transaction extends MX_Controller
       }
 
       echo json_encode($result);
+    }
+
+    // Appends an announcement to _announce.txt, which _announce_check.php
+    // long-polls for the viewing monitor. Each entry gets an increasing
+    // sequence number so the monitor can keep order and skip duplicates.
+    private function _push_announcement($number, $window)
+    {
+      $fp = @fopen(FCPATH.'_announce.txt', 'c+');
+      if ($fp === FALSE) {
+        log_message('error', 'Announcement: unable to open _announce.txt');
+        return;
+      }
+
+      if (flock($fp, LOCK_EX)) {
+        $log = json_decode(stream_get_contents($fp), TRUE);
+        if (!is_array($log) || !isset($log['seq'], $log['items']) || !is_array($log['items'])) {
+          $log = array('seq' => 0, 'items' => array());
+        }
+
+        $log['seq'] = (int) $log['seq'] + 1;
+        $log['items'][] = array(
+          'seq'    => $log['seq'],
+          'number' => (string) $number,
+          'window' => (string) $window,
+        );
+        // Keep a short history so a briefly disconnected monitor can catch up.
+        $log['items'] = array_slice($log['items'], -20);
+
+        ftruncate($fp, 0);
+        rewind($fp);
+        fwrite($fp, json_encode($log));
+        fflush($fp);
+        flock($fp, LOCK_UN);
+      } else {
+        log_message('error', 'Announcement: unable to lock _announce.txt');
+      }
+
+      fclose($fp);
     }
 
 }
