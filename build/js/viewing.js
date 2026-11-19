@@ -441,7 +441,9 @@ function announcerSpeak(text, done) {
   try {
     var u = new SpeechSynthesisUtterance(text);
     u.lang = "en-US";
-    u.rate = 1.1;
+    u.rate = 1.3;
+    u.pitch = 1.5;   // 0 to 2, default 1
+    u.volume = 1
     var voices = window.speechSynthesis.getVoices();
     for (var v = 0; v < voices.length; v++) {
       if (/^en([-_]|$)/i.test(voices[v].lang)) { u.voice = voices[v]; break; }
