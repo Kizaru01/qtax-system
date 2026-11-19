@@ -95,12 +95,12 @@
     <footer class="ns-footer">
         <!-- Welcome message (left) -->
         <div class="ns-footer-welcome">
-            <svg class="ns-footer-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <!-- <svg class="ns-footer-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M12 2a6 6 0 0 1 6 6c0 3-3 6.5-6 10-3-3.5-6-7-6-10a6 6 0 0 1 6-6Z" stroke="white" stroke-width="1.8"/>
                 <circle cx="12" cy="8" r="2.5" stroke="white" stroke-width="1.8"/>
                 <path d="M7 17.5c-2 .5-3 1.2-3 2 0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5c0-.8-1-1.5-3-2" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
             </svg>
-            <span>Welcome to the City of San Fernando</span>
+            <span>Welcome to the City of San Fernando</span> -->
         </div>
         <!-- Date and time (right) -->
         <div class="ns-footer-datetime">
