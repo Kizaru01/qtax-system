@@ -27,7 +27,7 @@
             </div>
             <div class="kiosk-service">
                 <strong>Real Property Tax Queuing</strong>
-                <span>Assessment Services</span>
+
             </div>
         </header>
 
@@ -96,7 +96,7 @@
 
     <script>
     let base_url = "<?php echo base_url(); ?>",
-        _system = "<?php echo $title;?>";
+        _system = "<?php echo isset($title) ? $title : ''; ?>";
     </script>
     <script src="<?php echo base_url('vendors/jquery/jquery-3.3.1.min.js'); ?>" crossorigin="anonymous"></script>
     <script src="<?php echo base_url('vendors/bootstrap-5/js/bootstrap.bundle.min.js'); ?>" crossorigin="anonymous">

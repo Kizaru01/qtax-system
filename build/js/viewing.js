@@ -85,25 +85,25 @@ function priorityLabel(type) {
    Builds the new card layout inside #qtax-serving-grid.
    Only visual output changes — DataTables drives the data.
    ============================================================ */
-function renderWaitingCards(waiting) {
-    const container = document.getElementById(
-        "qtax-up-next-tickets"
-    );
+function renderQueueTickets(containerId, tickets, highlightPriority = false) {
+    const container = document.getElementById(containerId);
 
     if (!container) return;
 
-    const section = container.closest(".ns-up-next");
-    const hasWaitingTickets = Array.isArray(waiting) && waiting.length > 0;
+    const section = container.closest(".ns-queue");
+    const hasTickets = Array.isArray(tickets) && tickets.length > 0;
     container.innerHTML = "";
-    section.hidden = !hasWaitingTickets;
+    section.hidden = !hasTickets;
 
-    if (!hasWaitingTickets) return;
+    if (!hasTickets) return;
 
-    waiting.forEach(function(ticket) {
+    tickets.forEach(function(ticket) {
         const item = document.createElement("li");
 
         item.textContent = ticket.number;
-        item.classList.toggle("ns-waiting-special", Boolean(priorityLabel(ticket.type)));
+        if (highlightPriority && priorityLabel(ticket.type)) {
+            item.classList.add("ns-waiting-special");
+        }
 
         container.appendChild(item);
     });
@@ -218,13 +218,11 @@ dt_serving = $("#dt_serving").DataTable({
     url: base_url + "viewing/ajax_get_viewing",
     cache: false,
 
-  dataSrc: function(response) {
-    // Update the waiting cards
-    renderWaitingCards(response.waiting || []);
-
-    // Keep the existing serving logic
-    return response.serving || [];
-  }
+    dataSrc: function(response) {
+      renderQueueTickets("qtax-up-next-tickets", response.waiting, true);
+      renderQueueTickets("qtax-pending-tickets", response.pending);
+      return response.serving || [];
+    }
   },
   columns: [
     {

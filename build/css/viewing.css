@@ -162,10 +162,11 @@ body.viewing {
     clip-path: ellipse(58% 126% at 102% 118%);
 }
 
-.ns-header-icon {
+.ns-header-icon,
+.ns-brand-logo {
     flex-shrink: 0;
-    width: min(clamp(32px, 5.5vh, 56px), 6vw);
-    aspect-ratio: 1;
+    width: min(10vh, 8vw);
+    height: min(10vh, 8vw);
 }
 
 .ns-header-icon img {
@@ -339,7 +340,7 @@ body.viewing {
     text-align: center;
 }
 
-.ns-up-next {
+.ns-queue {
     --next-inset: clamp(4px, min(1vh, 0.65vw), 12px);
     flex: 0 0 auto;
     display: grid;
@@ -352,34 +353,30 @@ body.viewing {
     background: #e3edf5;
 }
 
-.ns-up-next-label {
+.ns-queue-label {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: min(1.4vh, 0.65vw);
     min-width: 0;
     padding: var(--next-inset);
     border-radius: min(1.3vh, 0.8vw);
     background: #0067B1;
     color: #fff;
+    text-align: center;
 }
 
-.ns-up-next-label svg {
+.ns-queue-label svg {
     flex: 0 0 auto;
     width: min(4.6vh, 2.6vw);
 }
 
-.ns-up-next-label h2 {
+.ns-queue-label h2 {
     font-size: min(3vh, 2vw);
     line-height: 1;
 }
 
-.ns-up-next-label p {
-    margin-top: 0.3em;
-    font-size: min(1.6vh, 1.1vw);
-    line-height: 1.15;
-}
-
-.ns-up-next-tickets {
+.ns-queue-tickets {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     align-items: center;
@@ -389,7 +386,7 @@ body.viewing {
     list-style: none;
 }
 
-.ns-up-next-tickets li {
+.ns-queue-tickets li {
     padding: 0.45em 0;
     border: 1px solid #78AFE3;
     border-radius: min(1.3vh, 0.8vw);
@@ -403,23 +400,75 @@ body.viewing {
     white-space: nowrap;
 }
 
-.ns-up-next-tickets .ns-waiting-special {
+.ns-queue-tickets .ns-waiting-special {
     border-color: #BD1018;
     color: #BD1018;
 }
 
-.ns-up-next[hidden] {
+.ns-queue[hidden] {
     display: none;
+}
+
+.ns-pending-recall {
+    background: #f8ecd9;
+}
+
+.ns-pending-recall .ns-queue-label {
+    background: #f3d7ac;
+    color: #74430f;
+}
+
+.ns-pending-recall .ns-queue-label h2 span {
+    display: block;
+    margin-top: 0.2em;
+    font-size: min(2.15vh, 1.25vw);
+    white-space: nowrap;
+}
+
+.ns-pending-recall .ns-queue-tickets {
+    --pending-row-gap: min(0.6vh, 0.45vw);
+    /* Let the label set the card height even when the ticket list grows. */
+    contain: size;
+    min-height: 0;
+    align-content: safe center;
+    padding-block: 2px 4px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border-color: #dfc39c;
+}
+
+.ns-pending-recall .ns-queue-tickets li {
+    border-color: #d9a461;
+    background: #fff8ed;
+    box-shadow: 0 2px 4px rgb(116 67 15 / 15%);
+    color: #74430f;
+}
+
+.ns-pending-recall .ns-queue-tickets:has(> li:nth-child(6)) {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.ns-pending-recall .ns-queue-tickets:has(> li:nth-child(6)) li {
+    font-size: min(2.55vh, 1.3vw);
+}
+
+.ns-pending-recall .ns-queue-tickets:has(> li:nth-child(7)) {
+    grid-auto-rows: calc((100% - var(--pending-row-gap)) / 2);
+    align-content: start;
+    align-items: stretch;
+    row-gap: var(--pending-row-gap);
+}
+
+.ns-pending-recall .ns-queue-tickets:has(> li:nth-child(7)) li {
+    display: grid;
+    place-items: center;
+    min-height: 0;
+    padding: 0;
+    font-size: min(2.05vh, 1.2vw);
 }
 
 .ns-brand {
     justify-content: center;
-}
-
-.ns-brand-logo {
-    flex-shrink: 0;
-    width: min(10vh, 8vw);
-    height: min(10vh, 8vw);
 }
 
 .ns-brand-logo img {

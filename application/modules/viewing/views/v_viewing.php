@@ -2,14 +2,14 @@
 <html lang="en">
 
 <head>
-    <?php define("VERSION", $this->config->item('queuing_version')); ?>
+    <?php $viewing_asset_version = $this->config->item('queuing_version') . '.5'; ?>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?php echo (isset($title)) ? $title . ' | Queuing' : 'Queuing System'; ?></title>
     <link href="<?php echo base_url('vendors/datatables/css/jquery.dataTables.min.css'); ?>" rel="stylesheet">
-    <link href="<?php echo base_url('build/css/viewing.css?v='.VERSION); ?>" rel="stylesheet">
+    <link href="<?php echo base_url('build/css/viewing.css?v='.$viewing_asset_version); ?>" rel="stylesheet">
 </head>
 
 <body class="viewing">
@@ -49,25 +49,33 @@
                 <div id="qtax-serving-grid" class="ns-grid"></div>
             </div>
 
-         <section class="ns-up-next" aria-labelledby="ns-up-next-title" hidden>
-    <div class="ns-up-next-label">
-        <svg viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="2"
-             stroke-linecap="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="10"></circle>
-            <path d="M12 6v6l4 2"></path>
-        </svg>
+            <section class="ns-queue" aria-labelledby="ns-up-next-title" hidden>
+                <div class="ns-queue-label">
+                    <svg viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 6v6l4 2"></path>
+                    </svg>
+                    <h2 id="ns-up-next-title">UP NEXT</h2>
+                </div>
+                <ul id="qtax-up-next-tickets" class="ns-queue-tickets" aria-label="Next waiting tickets"></ul>
+            </section>
 
-        <div>
-            <h2 id="ns-up-next-title">UP NEXT</h2>
-        </div>
-    </div>
-
-    <ul id="qtax-up-next-tickets"
-        class="ns-up-next-tickets"
-        aria-label="Next waiting tickets">
-    </ul>
-</section>
+            <section class="ns-queue ns-pending-recall" aria-labelledby="ns-pending-recall-title" hidden>
+                <div class="ns-queue-label">
+                    <svg viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M3 11a9 9 0 1 1 2.6 7.4M3 5v6h6"></path>
+                    </svg>
+                    <h2 id="ns-pending-recall-title">
+                        PENDING
+                        <span>(Previous called)</span>
+                    </h2>
+                </div>
+                <ul id="qtax-pending-tickets" class="ns-queue-tickets" aria-label="Pending recall tickets"></ul>
+            </section>
 
             <!-- Hidden DataTable (keeps AJAX/Comet logic intact) -->
             <div style="display:none;">
@@ -95,12 +103,12 @@
     <footer class="ns-footer">
         <!-- Welcome message (left) -->
         <div class="ns-footer-welcome">
-            <!-- <svg class="ns-footer-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <svg class="ns-footer-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M12 2a6 6 0 0 1 6 6c0 3-3 6.5-6 10-3-3.5-6-7-6-10a6 6 0 0 1 6-6Z" stroke="white" stroke-width="1.8"/>
                 <circle cx="12" cy="8" r="2.5" stroke="white" stroke-width="1.8"/>
                 <path d="M7 17.5c-2 .5-3 1.2-3 2 0 1.4 3.6 2.5 8 2.5s8-1.1 8-2.5c0-.8-1-1.5-3-2" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
             </svg>
-            <span>Welcome to the City of San Fernando</span> -->
+            <span>Welcome to the City of San Fernando</span>
         </div>
         <!-- Date and time (right) -->
         <div class="ns-footer-datetime">
@@ -137,7 +145,7 @@
     <script type="text/javascript" src="<?php echo base_url('vendors/comet/prototype.min.js'); ?>"></script>
     <script src="<?php echo base_url('vendors/jquery/jquery-3.3.1.min.js'); ?>"></script>
     <script src="<?php echo base_url('vendors/datatables/js/jquery.dataTables.min.js'); ?>"></script>
-    <script src="<?php echo base_url('build/js/viewing.js?v='.VERSION); ?>"></script>
+    <script src="<?php echo base_url('build/js/viewing.js?v='.$viewing_asset_version); ?>"></script>
 </body>
 
 </html>

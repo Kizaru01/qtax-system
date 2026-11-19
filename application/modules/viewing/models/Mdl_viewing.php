@@ -7,14 +7,14 @@ class Mdl_viewing extends CI_Model
     $this->load->helper('waiting_queue');
     $waiting_types = qtax_waiting_types();
     $queue_order = qtax_waiting_order();
-    // Read both lists together so a call cannot put the same row in both lists.
+    // Read all queues together so each ticket appears in only one list.
     $sql = "
         SELECT id, number, `window`, ifpayment, type, status, dtadded
         FROM tbl_transaction
         WHERE DATE(dtadded) = CURDATE()
           AND isactive = 'yes'
           AND (
-            status IN ('SERVING', 'VERIFY', 'RELEASING-SERVING')
+            status IN ('SERVING', 'VERIFY', 'RELEASING-SERVING', 'PENDING')
             OR (
               status = 'NA'
               AND type IN ($waiting_types)
@@ -23,12 +23,19 @@ class Mdl_viewing extends CI_Model
         ORDER BY $queue_order
     ";
 
-    $snapshot = array('status' => 'yes', 'serving' => array(), 'waiting' => array());
+    $snapshot = array(
+      'status' => 'yes',
+      'serving' => array(),
+      'waiting' => array(),
+      'pending' => array()
+    );
     foreach ($this->db->query($sql)->result_array() as $ticket) {
       if ($ticket['status'] === 'NA') {
         if (count($snapshot['waiting']) < 5) {
           $snapshot['waiting'][] = $ticket;
         }
+      } elseif ($ticket['status'] === 'PENDING') {
+        $snapshot['pending'][] = $ticket;
       } else {
         $snapshot['serving'][] = $ticket;
       }
