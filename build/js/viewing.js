@@ -103,6 +103,7 @@ function renderWaitingCards(waiting) {
         const item = document.createElement("li");
 
         item.textContent = ticket.number;
+        item.classList.toggle("ns-waiting-special", Boolean(priorityLabel(ticket.type)));
 
         container.appendChild(item);
     });

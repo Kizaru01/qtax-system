@@ -403,6 +403,11 @@ body.viewing {
     white-space: nowrap;
 }
 
+.ns-up-next-tickets .ns-waiting-special {
+    border-color: #BD1018;
+    color: #BD1018;
+}
+
 .ns-up-next[hidden] {
     display: none;
 }

@@ -317,7 +317,9 @@ function btn_serve(t) {
       window: _w,
     },
     function (data) {
-      // dt_reload(t);
+      if (data.status !== "yes") {
+        alert("This ticket could not be called. Check the Serve option in your lane and try again.");
+      }
     }
   );
 

@@ -1,1 +1,1 @@
-  {"status":"yes","serving":[{"id":"16935","number":"1002","window":"42","ifpayment":"NO","type":"REGULAR","status":"SERVING","dtadded":"2026-11-19 09:02:12"}],"waiting":[]}
+  {"status":"yes","serving":[],"waiting":[]}

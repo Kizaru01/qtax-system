@@ -1,1 +1,1 @@
-  {"status":"yes","regular":[{"id":"16935","number":"1002","window":"42","remarks":"serving"}],"special":false,"special1":false,"regular1":false}
+  {"status":"yes","regular":false,"special":false,"special1":false,"regular1":false}

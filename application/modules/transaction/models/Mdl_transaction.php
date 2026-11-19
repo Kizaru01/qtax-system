@@ -13,6 +13,10 @@ class Mdl_transaction extends CI_Model
 	// }
 
   public function m_save_trasaction($data) {
+		if ($data['status'] === 'SERVING') {
+			return $this->m_call_ticket($data);
+		}
+
 		$id = $data['id'];
 		unset($data['id']);
 		$this->db->where('id', $id);
@@ -22,6 +26,47 @@ class Mdl_transaction extends CI_Model
 			return FALSE;
 		}
 	}
+
+  private function m_call_ticket($data) {
+    $this->load->helper('waiting_queue');
+    $waiting_types = qtax_waiting_types();
+    $lane_heads = $this->m_waiting_lane_heads();
+
+    // Check the head of the ticket's own lane and claim it in the same statement.
+    $sql = "
+        UPDATE tbl_transaction
+        SET status = 'SERVING', `window` = ?, serveby = ?, dtserving = ?
+        WHERE id = ?
+          AND (
+            type IS NULL OR type NOT IN ($waiting_types)
+            OR status = 'PENDING'
+            OR (status = 'NA' AND (id, deletedby) IN ($lane_heads))
+          )
+    ";
+
+    return $this->db->query($sql, array($data['window'], $data['serveby'], $data['dtserving'], $data['id']))
+      && $this->db->affected_rows() > 0;
+  }
+
+  private function m_waiting_lane_heads() {
+    $queue_order = qtax_queue_arrival_order();
+    $first_waiting = "
+        SELECT id AS ticket_id, deletedby AS ticket_deletedby
+        FROM tbl_transaction
+        WHERE DATE(dtadded) = CURDATE()
+          AND isactive = 'yes'
+          AND status = 'NA'
+          AND type IN (%s)
+        ORDER BY $queue_order
+        LIMIT 1
+    ";
+    $regular_head = sprintf($first_waiting, qtax_regular_waiting_types());
+    $special_head = sprintf($first_waiting, qtax_special_waiting_types());
+
+    return "SELECT * FROM ($regular_head) AS regular_head
+            UNION ALL
+            SELECT * FROM ($special_head) AS special_head";
+  }
 
   // Ticket number and window for the viewing monitor announcement.
   // Returns FALSE unless the ticket is currently SERVING.
@@ -38,27 +83,29 @@ class Mdl_transaction extends CI_Model
   }
 
   public function m_ajax_get_serve($str) {
-    $sql = 'SELECT
-              `id`,
-              `number`,
-              IFNULL(`window`,"") AS `window`,
-              (
-            	CASE
-            		WHEN `status` = "NA" THEN "serve"
-            		WHEN `status` = "SERVING" THEN "serving"
-            		WHEN `status` = "PENDING" THEN "pending"
-            	END
-            	) AS `remarks`
-            FROM
-              `tbl_transaction`
-            WHERE
-              DATE(`dtadded`) = CURDATE()
-              AND (`status` = "NA" OR `status` = "SERVING" OR `status` = "PENDING")
-              AND `type` = "'.$str.'"
-              AND isactive = "yes"
-            ORDER BY `dtorder`, `id`';
+    $this->load->helper('waiting_queue');
+    $lane_heads = $this->m_waiting_lane_heads();
+    $waiting_types = qtax_waiting_types();
+    $queue_order = qtax_queue_arrival_order();
+    $sql = "
+        SELECT ticket.id, number, IFNULL(`window`, '') AS `window`,
+          CASE
+            WHEN status = 'SERVING' THEN 'serving'
+            WHEN status = 'PENDING' THEN 'pending'
+            WHEN lane_head.ticket_id IS NOT NULL OR type NOT IN ($waiting_types) THEN 'serve'
+            ELSE 'waiting'
+          END AS remarks
+        FROM tbl_transaction AS ticket
+        LEFT JOIN ($lane_heads) AS lane_head
+          ON lane_head.ticket_id = ticket.id AND lane_head.ticket_deletedby = ticket.deletedby
+        WHERE DATE(dtadded) = CURDATE()
+          AND status IN ('NA', 'SERVING', 'PENDING')
+          AND type = ?
+          AND isactive = 'yes'
+        ORDER BY $queue_order
+    ";
 
-    $query = $this->db->query($sql);
+    $query = $this->db->query($sql, array($str));
     if ($query->num_rows() > 0) {
       return $query->result();
     } else {
