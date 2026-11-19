@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <?php $viewing_asset_version = $this->config->item('queuing_version') . '.5'; ?>
+    <?php $viewing_asset_version = $this->config->item('queuing_version') . '.6'; ?>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -89,7 +89,7 @@
 
             <!-- Video player -->
             <div class="ns-video-wrap">
-                <video id="videoplayer" allow="autoplay" onended="onvideoended();">
+                <video id="videoplayer" controls allow="autoplay" onended="onvideoended();">
                     <source src="movie.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>

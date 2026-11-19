@@ -38,12 +38,12 @@ var getJSON = function (url) {
 };
 
 /* ---- Video file list -------------------------------------- */
+video_player.volume = 0.9;
 getJSON(base_url + "viewing/ajax_get_file").then(
   function (data) {
     if (data.status === "yes" || data.status === true) {
       video_list = data.content;
       video_player.setAttribute("src", video_list[video_index]);
-      video_player.volume = 0.9;
       var promise = video_player.play();
       if (promise !== undefined) {
         promise.then(function(){}).catch(function(){});
@@ -442,7 +442,7 @@ function announcerSpeak(text, done) {
     u.lang = "en-US";
     u.rate = 1.3;
     u.pitch = 1.5;   // 0 to 2, default 1
-    u.volume = 1
+    u.volume = 1;
     var voices = window.speechSynthesis.getVoices();
     for (var v = 0; v < voices.length; v++) {
       if (/^en([-_]|$)/i.test(voices[v].lang)) { u.voice = voices[v]; break; }
